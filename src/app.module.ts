@@ -26,6 +26,8 @@ import { RefundsModule } from './refunds/refunds.module';
     GraphQLModule.forRoot({
       autoSchemaFile: true,
       playground: true,
+      introspection: true,
+      
     }),
     UsersModule,
     ProductsModule,
