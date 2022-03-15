@@ -62,6 +62,8 @@ export declare class Variation {
     quantity: number;
     options: VariationOption[];
 }
+export declare class VariationInput extends Variation {
+}
 export declare class VariationOption {
     name: string;
     value: string;

@@ -13,26 +13,26 @@ let WithdrawsService = class WithdrawsService {
     constructor() {
         this.withdraws = [];
     }
-    create(createWithdrawDto) {
-        return Object.assign({ id: this.withdraws.length + 1 }, createWithdrawDto);
+    create(createWithdrawInput) {
+        return Object.assign({ id: 1 }, createWithdrawInput);
     }
-    getWithdraws({ limit, page, status, shop_id, }) {
-        if (!page)
-            page = 1;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
+    getWithdraws({ first, page, status, shop_id, }) {
+        const startIndex = (page - 1) * first;
+        const endIndex = page * first;
         let data = this.withdraws;
         if (shop_id) {
             data = this.withdraws.filter((p) => p.shop_id === shop_id);
         }
         const results = data.slice(startIndex, endIndex);
-        const url = `/withdraws?limit=${limit}`;
-        return Object.assign({ data: results }, (0, paginate_1.paginate)(data.length, page, limit, results.length, url));
+        return {
+            data: results,
+            paginatorInfo: (0, paginate_1.paginate)(data.length, page, first, results.length),
+        };
     }
     findOne(id) {
-        return `This action returns a #${id} withdraw`;
+        return this.withdraws[0];
     }
-    update(id, updateWithdrawDto) {
+    update(id, updateWithdrawInput) {
         return this.withdraws[0];
     }
     remove(id) {

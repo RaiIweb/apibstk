@@ -1,61 +1,116 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Location = exports.ShopSocials = exports.ContactDetails = exports.FacebookSettings = exports.GoogleSettings = exports.SeoSettings = exports.DeliveryTime = exports.SettingsOptions = exports.Setting = void 0;
-const openapi = require("@nestjs/swagger");
+const eager_import_0 = require("./setting.entity");
+const eager_import_1 = require("../../common/entities/attachment.entity");
+const graphql_1 = require("@nestjs/graphql");
 const attachment_entity_1 = require("../../common/entities/attachment.entity");
 const core_entity_1 = require("../../common/entities/core.entity");
-class Setting extends core_entity_1.CoreEntity {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { options: { required: true, type: () => require("./setting.entity").SettingsOptions } };
+let Setting = class Setting extends core_entity_1.CoreEntity {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { options: { type: () => require("./setting.entity").SettingsOptions } };
     }
-}
+};
+Setting = __decorate([
+    (0, graphql_1.InputType)('SettingInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], Setting);
 exports.Setting = Setting;
-class SettingsOptions {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { siteTitle: { required: true, type: () => String }, siteSubtitle: { required: true, type: () => String }, currency: { required: true, type: () => String }, minimumOrderAmount: { required: true, type: () => Number }, walletToCurrencyRatio: { required: true, type: () => Number }, signupPoints: { required: true, type: () => Number }, deliveryTime: { required: true, type: () => [require("./setting.entity").DeliveryTime] }, logo: { required: true, type: () => require("../../common/entities/attachment.entity").Attachment }, taxClass: { required: true, type: () => String }, shippingClass: { required: true, type: () => String }, seo: { required: true, type: () => require("./setting.entity").SeoSettings }, google: { required: false, type: () => require("./setting.entity").GoogleSettings }, facebook: { required: false, type: () => require("./setting.entity").FacebookSettings }, contactDetails: { required: true, type: () => require("./setting.entity").ContactDetails } };
+let SettingsOptions = class SettingsOptions {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { siteTitle: { type: () => String }, siteSubtitle: { type: () => String }, currency: { type: () => String }, minimumOrderAmount: { type: () => Number }, currencyToWalletRatio: { nullable: true, type: () => Number }, signupPoints: { nullable: true, type: () => Number }, deliveryTime: { type: () => [require("./setting.entity").DeliveryTime] }, logo: { type: () => require("../../common/entities/attachment.entity").Attachment }, taxClass: { type: () => String }, shippingClass: { type: () => String }, seo: { type: () => require("./setting.entity").SeoSettings }, google: { nullable: true, type: () => require("./setting.entity").GoogleSettings }, facebook: { nullable: true, type: () => require("./setting.entity").FacebookSettings }, contactDetails: { type: () => require("./setting.entity").ContactDetails } };
     }
-}
+};
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.Int),
+    __metadata("design:type", Number)
+], SettingsOptions.prototype, "currencyToWalletRatio", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.Int),
+    __metadata("design:type", Number)
+], SettingsOptions.prototype, "signupPoints", void 0);
+SettingsOptions = __decorate([
+    (0, graphql_1.InputType)('SettingsOptionsInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], SettingsOptions);
 exports.SettingsOptions = SettingsOptions;
-class DeliveryTime {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { title: { required: true, type: () => String }, description: { required: true, type: () => String } };
+let DeliveryTime = class DeliveryTime {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { title: { type: () => String }, description: { type: () => String } };
     }
-}
+};
+DeliveryTime = __decorate([
+    (0, graphql_1.InputType)('DeliveryTimeInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], DeliveryTime);
 exports.DeliveryTime = DeliveryTime;
-class SeoSettings {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { metaTitle: { required: false, type: () => String }, metaDescription: { required: false, type: () => String }, ogTitle: { required: false, type: () => String }, ogDescription: { required: false, type: () => String }, ogImage: { required: false, type: () => require("../../common/entities/attachment.entity").Attachment }, twitterHandle: { required: false, type: () => String }, twitterCardType: { required: false, type: () => String }, metaTags: { required: false, type: () => String }, canonicalUrl: { required: false, type: () => String } };
+let SeoSettings = class SeoSettings {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { metaTitle: { nullable: true, type: () => String }, metaDescription: { nullable: true, type: () => String }, ogTitle: { nullable: true, type: () => String }, ogDescription: { nullable: true, type: () => String }, ogImage: { nullable: true, type: () => require("../../common/entities/attachment.entity").Attachment }, twitterHandle: { nullable: true, type: () => String }, twitterCardType: { nullable: true, type: () => String }, metaTags: { nullable: true, type: () => String }, canonicalUrl: { nullable: true, type: () => String } };
     }
-}
+};
+SeoSettings = __decorate([
+    (0, graphql_1.InputType)('SeoSettingsInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], SeoSettings);
 exports.SeoSettings = SeoSettings;
-class GoogleSettings {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { isEnable: { required: true, type: () => Boolean }, tagManagerId: { required: true, type: () => String } };
+let GoogleSettings = class GoogleSettings {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { isEnable: { type: () => Boolean }, tagManagerId: { type: () => String } };
     }
-}
+};
+GoogleSettings = __decorate([
+    (0, graphql_1.InputType)('GoogleSettingsInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], GoogleSettings);
 exports.GoogleSettings = GoogleSettings;
-class FacebookSettings {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { isEnable: { required: true, type: () => Boolean }, appId: { required: true, type: () => String }, pageId: { required: true, type: () => String } };
+let FacebookSettings = class FacebookSettings {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { isEnable: { type: () => Boolean }, appId: { type: () => String }, pageId: { type: () => String } };
     }
-}
+};
+FacebookSettings = __decorate([
+    (0, graphql_1.InputType)('FacebookSettingsInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], FacebookSettings);
 exports.FacebookSettings = FacebookSettings;
-class ContactDetails {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { socials: { required: true, type: () => [require("./setting.entity").ShopSocials] }, contact: { required: true, type: () => String }, location: { required: true, type: () => require("./setting.entity").Location }, website: { required: true, type: () => String } };
+let ContactDetails = class ContactDetails {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { socials: { type: () => [require("./setting.entity").ShopSocials] }, contact: { type: () => String }, location: { type: () => require("./setting.entity").Location }, website: { type: () => String } };
     }
-}
+};
+ContactDetails = __decorate([
+    (0, graphql_1.InputType)('ContactDetailsInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], ContactDetails);
 exports.ContactDetails = ContactDetails;
-class ShopSocials {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { icon: { required: true, type: () => String }, url: { required: true, type: () => String } };
+let ShopSocials = class ShopSocials {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { icon: { type: () => String }, url: { type: () => String } };
     }
-}
+};
+ShopSocials = __decorate([
+    (0, graphql_1.InputType)('ShopSocialsInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], ShopSocials);
 exports.ShopSocials = ShopSocials;
-class Location {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { lat: { required: true, type: () => Number }, lng: { required: true, type: () => Number }, city: { required: false, type: () => String }, state: { required: true, type: () => String }, country: { required: true, type: () => String }, zip: { required: false, type: () => String }, formattedAddress: { required: true, type: () => String } };
+let Location = class Location {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { lat: { nullable: true, type: () => Number }, lng: { nullable: true, type: () => Number }, city: { nullable: true, type: () => String }, state: { nullable: true, type: () => String }, country: { nullable: true, type: () => String }, zip: { nullable: true, type: () => String }, formattedAddress: { nullable: true, type: () => String } };
     }
-}
+};
+Location = __decorate([
+    (0, graphql_1.InputType)('LocationInputType', { isAbstract: true }),
+    (0, graphql_1.ObjectType)()
+], Location);
 exports.Location = Location;
 //# sourceMappingURL=setting.entity.js.map

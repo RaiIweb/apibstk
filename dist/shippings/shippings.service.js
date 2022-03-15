@@ -19,16 +19,16 @@ let ShippingsService = class ShippingsService {
     constructor() {
         this.shippings = shippings;
     }
-    create(createShippingDto) {
+    create(createShippingInput) {
         return this.shippings[0];
     }
-    getShippings({}) {
+    findAll(getShippingsArgs) {
         return this.shippings;
     }
     findOne(id) {
         return this.shippings.find((shipping) => shipping.id === Number(id));
     }
-    update(id, updateShippingDto) {
+    update(updateShippingInput) {
         return this.shippings[0];
     }
     remove(id) {

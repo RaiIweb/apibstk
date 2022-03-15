@@ -9,8 +9,7 @@ export declare class Type extends CoreEntity {
     promotional_sliders?: Attachment[];
     settings?: TypeSettings;
 }
-export declare class Banner {
-    id: number;
+export declare class Banner extends CoreEntity {
     title?: string;
     description?: string;
     image: Attachment;

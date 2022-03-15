@@ -1,5 +1,5 @@
-import { CoreEntity } from 'src/common/entities/core.entity';
-export declare class Attachment extends CoreEntity {
+export declare class Attachment {
+    id?: number;
     thumbnail?: string;
     original?: string;
 }

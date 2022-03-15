@@ -26,27 +26,40 @@ let CouponsService = class CouponsService {
     constructor() {
         this.coupons = coupons;
     }
-    create(createCouponDto) {
+    create(createCouponInput) {
         return this.coupons[0];
     }
-    getCoupons({ search, limit, page }) {
-        if (!page)
-            page = 1;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-        const data = this.coupons;
+    getCoupons({ text, first, page }) {
+        var _a;
+        const startIndex = (page - 1) * first;
+        const endIndex = page * first;
+        let data = this.coupons;
+        if (text === null || text === void 0 ? void 0 : text.replace(/%/g, '')) {
+            data = (_a = fuse.search(text)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
+        }
         const results = data.slice(startIndex, endIndex);
-        const url = `/coupons?search=${search}&limit=${limit}`;
-        return Object.assign({ data: results }, (0, paginate_1.paginate)(data.length, page, limit, results.length, url));
+        return {
+            data: results,
+            paginatorInfo: (0, paginate_1.paginate)(data.length, page, first, results.length),
+        };
     }
-    getCoupon(id) {
-        return this.coupons.find((p) => p.id === id);
+    getCoupon({ id, code }) {
+        if (id) {
+            return this.coupons.find((p) => p.id === Number(id));
+        }
+        return this.coupons.find((p) => p.code === code);
     }
-    update(id, updateCouponDto) {
+    update(id, updateCouponInput) {
         return this.coupons[0];
     }
     remove(id) {
         return `This action removes a #${id} coupon`;
+    }
+    verifyCoupon(code) {
+        return {
+            is_valid: true,
+            coupon: this.coupons[0],
+        };
     }
 };
 CouponsService = __decorate([

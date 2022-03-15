@@ -19,16 +19,16 @@ let TaxesService = class TaxesService {
     constructor() {
         this.taxes = taxes;
     }
-    create(createTaxDto) {
+    create(createTaxInput) {
         return this.taxes[0];
     }
-    findAll() {
+    findAll(getTaxesArgs) {
         return this.taxes;
     }
     findOne(id) {
         return this.taxes.find((tax) => tax.id === Number(id));
     }
-    update(id, updateTaxDto) {
+    update(id, updateTaxInput) {
         return this.taxes[0];
     }
     remove(id) {

@@ -8,12 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommonModule = void 0;
 const common_1 = require("@nestjs/common");
+const upload_scalar_1 = require("./scalars/upload.scalar");
 let CommonModule = class CommonModule {
 };
 CommonModule = __decorate([
+    (0, common_1.Global)(),
     (0, common_1.Module)({
-        controllers: [],
-        providers: [],
+        providers: [upload_scalar_1.Upload],
     })
 ], CommonModule);
 exports.CommonModule = CommonModule;

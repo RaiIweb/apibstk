@@ -9,13 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CouponsModule = void 0;
 const common_1 = require("@nestjs/common");
 const coupons_service_1 = require("./coupons.service");
-const coupons_controller_1 = require("./coupons.controller");
+const coupons_resolver_1 = require("./coupons.resolver");
 let CouponsModule = class CouponsModule {
 };
 CouponsModule = __decorate([
     (0, common_1.Module)({
-        controllers: [coupons_controller_1.CouponsController],
-        providers: [coupons_service_1.CouponsService],
+        providers: [coupons_resolver_1.CouponsResolver, coupons_service_1.CouponsService]
     })
 ], CouponsModule);
 exports.CouponsModule = CouponsModule;

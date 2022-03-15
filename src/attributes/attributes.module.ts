@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AttributesService } from './attributes.service';
-import { AttributesController } from './attributes.controller';
+import { AttributesResolver } from './attributes.resolver';
 
 @Module({
-  controllers: [AttributesController],
-  providers: [AttributesService],
+  providers: [AttributesResolver, AttributesService]
 })
 export class AttributesModule {}

@@ -1,14 +1,16 @@
-import { CreateProductDto } from './dto/create-product.dto';
-import { GetProductsDto, ProductPaginator } from './dto/get-products.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductInput } from './dto/create-product.input';
+import { GetProductArgs } from './dto/get-product.args';
+import { GetProductsArgs, ProductPaginator } from './dto/get-products.args';
+import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
-import { GetPopularProductsDto } from './dto/get-popular-products.dto';
+import { GetPopularProductsArgs } from './dto/get-popular-products.args';
 export declare class ProductsService {
     private products;
-    create(createProductDto: CreateProductDto): Product;
-    getProducts({ limit, page, search }: GetProductsDto): ProductPaginator;
-    getProductBySlug(slug: string): Product;
-    getPopularProducts({ shop_id, limit }: GetPopularProductsDto): Product[];
-    update(id: number, updateProductDto: UpdateProductDto): Product;
-    remove(id: number): string;
+    create(createProductInput: CreateProductInput): string;
+    getProducts({ text, first, page, hasType, hasCategories, status, shop_id, }: GetProductsArgs): ProductPaginator;
+    getProduct({ id, slug }: GetProductArgs): Product;
+    getRelatedProducts({ id, slug }: GetProductArgs): Product[];
+    getPopularProducts({ shop_id, limit }: GetPopularProductsArgs): Product[];
+    update(id: number, updateProductInput: UpdateProductInput): Product;
+    remove(id: number): Product;
 }

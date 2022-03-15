@@ -1,9 +1,17 @@
+import {
+  Field,
+  InputType,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
 import { CoreEntity } from 'src/common/entities/core.entity';
-
+@InputType('ShippingInputType', { isAbstract: true })
+@ObjectType()
 export class Shipping extends CoreEntity {
   name: string;
   amount: number;
-  is_global: boolean;
+  @Field(() => Boolean, { defaultValue: true })
+  is_global = true;
   type: ShippingType;
 }
 
@@ -12,3 +20,7 @@ export enum ShippingType {
   PERCENTAGE = 'percentage',
   FREE = 'free',
 }
+
+registerEnumType(ShippingType, {
+  name: 'ShippingType',
+});

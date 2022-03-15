@@ -2,6 +2,7 @@ import { UserAddress } from 'src/addresses/entities/address.entity';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { Coupon } from 'src/coupons/entities/coupon.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { Refund } from 'src/refunds/entities/refund.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import { User } from 'src/users/entities/user.entity';
 import { OrderStatus } from './order-status.entity';
@@ -31,4 +32,11 @@ export declare class Order extends CoreEntity {
     products: Product[];
     billing_address: UserAddress;
     shipping_address: UserAddress;
+    refund?: Refund;
+    wallet_point?: WalletPoint;
 }
+declare class WalletPoint {
+    id: number;
+    amount: number;
+}
+export {};

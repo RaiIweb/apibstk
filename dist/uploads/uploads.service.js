@@ -9,15 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadsService = void 0;
 const common_1 = require("@nestjs/common");
 let UploadsService = class UploadsService {
-    findAll() {
-        return `This action returns all uploads`;
-    }
-    findOne(id) {
-        return `This action returns a #${id} upload`;
-    }
-    remove(id) {
-        return `This action removes a #${id} upload`;
-    }
 };
 UploadsService = __decorate([
     (0, common_1.Injectable)()

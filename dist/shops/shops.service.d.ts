@@ -1,41 +1,21 @@
-import { CreateShopDto } from './dto/create-shop.dto';
-import { UpdateShopDto } from './dto/update-shop.dto';
+import { CreateShopInput } from './dto/create-shop.input';
+import { UpdateShopInput } from './dto/update-shop.input';
 import { Shop } from './entities/shop.entity';
-import { GetShopsDto } from './dto/get-shops.dto';
-import { GetStaffsDto } from './dto/get-staffs.dto';
+import { GetShopsArgs } from './dto/get-shops.args';
+import { GetShopArgs } from './dto/get-shop.args';
+import { GetStaffsArgs } from './dto/get-staffs.args';
 export declare class ShopsService {
     private shops;
-    create(createShopDto: CreateShopDto): Shop;
-    getShops({ search, limit, page }: GetShopsDto): {
-        count: number;
-        currentPage: number;
-        firstItem: number;
-        lastItem: number;
-        lastPage: number;
-        perPage: number;
-        total: number;
-        first_page_url: string;
-        last_page_url: string;
-        next_page_url: string;
-        prev_page_url: string;
+    create(createShopInput: CreateShopInput): Shop;
+    getShops({ text, first, page }: GetShopsArgs): {
         data: Shop[];
+        paginatorInfo: import("../common/dto/paginator-info.model").PaginatorInfo;
     };
-    getStaffs({ shop_id, limit, page }: GetStaffsDto): {
-        count: number;
-        currentPage: number;
-        firstItem: number;
-        lastItem: number;
-        lastPage: number;
-        perPage: number;
-        total: number;
-        first_page_url: string;
-        last_page_url: string;
-        next_page_url: string;
-        prev_page_url: string;
+    getStaffs({ shop_id, first, page }: GetStaffsArgs): {
         data: import("../users/entities/user.entity").User[];
+        paginatorInfo: import("../common/dto/paginator-info.model").PaginatorInfo;
     };
-    getShop(slug: string): Shop;
-    update(id: number, updateShopDto: UpdateShopDto): Shop;
-    approve(id: number): string;
+    getShop({ id, slug }: GetShopArgs): Shop;
+    update(id: number, updateShopInput: UpdateShopInput): Shop;
     remove(id: number): string;
 }

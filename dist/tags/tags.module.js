@@ -9,13 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TagsModule = void 0;
 const common_1 = require("@nestjs/common");
 const tags_service_1 = require("./tags.service");
-const tags_controller_1 = require("./tags.controller");
+const tags_resolver_1 = require("./tags.resolver");
 let TagsModule = class TagsModule {
 };
 TagsModule = __decorate([
     (0, common_1.Module)({
-        controllers: [tags_controller_1.TagsController],
-        providers: [tags_service_1.TagsService],
+        providers: [tags_resolver_1.TagsResolver, tags_service_1.TagsService]
     })
 ], TagsModule);
 exports.TagsModule = TagsModule;

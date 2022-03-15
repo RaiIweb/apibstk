@@ -6,6 +6,8 @@ export declare class Category extends CoreEntity {
     name: string;
     slug: string;
     parent?: Category;
+    parent_id?: number;
+    products_count?: number;
     children?: Category[];
     details?: string;
     image?: Attachment;

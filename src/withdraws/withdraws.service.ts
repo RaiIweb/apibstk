@@ -1,31 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWithdrawDto } from './dto/create-withdraw.dto';
-import { ApproveWithdrawDto } from './dto/approve-withdraw.dto';
-import { Withdraw } from './entities/withdraw.entity';
-import { GetWithdrawsDto, WithdrawPaginator } from './dto/get-withdraw.dto';
 import { paginate } from 'src/common/pagination/paginate';
+import { CreateWithdrawInput } from './dto/create-withdraw.input';
+import { GetWithdrawsArgs, WithdrawPaginator } from './dto/get-withdraws.args';
+import { ApproveWithdrawInput } from './dto/approve-withdraw.input';
+import { Withdraw } from './entities/withdraw.entity';
 
 @Injectable()
 export class WithdrawsService {
   private withdraws: Withdraw[] = [];
-
-  create(createWithdrawDto: CreateWithdrawDto) {
+  create(createWithdrawInput: CreateWithdrawInput) {
     return {
-      id: this.withdraws.length + 1,
-      ...createWithdrawDto,
+      id: 1,
+      ...createWithdrawInput,
     };
   }
 
   getWithdraws({
-    limit,
+    first,
     page,
     status,
     shop_id,
-  }: GetWithdrawsDto): WithdrawPaginator {
-    if (!page) page = 1;
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
+  }: GetWithdrawsArgs): WithdrawPaginator {
+    const startIndex = (page - 1) * first;
+    const endIndex = page * first;
     let data: Withdraw[] = this.withdraws;
     // if (status) {
     //   data = fuse.search(status)?.map(({ item }) => item);
@@ -35,19 +32,17 @@ export class WithdrawsService {
       data = this.withdraws.filter((p) => p.shop_id === shop_id);
     }
     const results = data.slice(startIndex, endIndex);
-    const url = `/withdraws?limit=${limit}`;
 
     return {
       data: results,
-      ...paginate(data.length, page, limit, results.length, url),
+      paginatorInfo: paginate(data.length, page, first, results.length),
     };
   }
-
   findOne(id: number) {
-    return `This action returns a #${id} withdraw`;
+    return this.withdraws[0];
   }
 
-  update(id: number, updateWithdrawDto: ApproveWithdrawDto) {
+  update(id: number, updateWithdrawInput: ApproveWithdrawInput) {
     return this.withdraws[0];
   }
 

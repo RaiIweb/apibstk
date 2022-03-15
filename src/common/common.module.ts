@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
-
+import { Global, Module } from '@nestjs/common';
+// import { Mixed } from './scalars/mixed.scalar';
+import { Upload } from './scalars/upload.scalar';
+@Global()
 @Module({
-  controllers: [],
-  providers: [],
+  providers: [Upload],
 })
 export class CommonModule {}

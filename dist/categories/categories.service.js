@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriesService = void 0;
 const common_1 = require("@nestjs/common");
 const class_transformer_1 = require("class-transformer");
-const category_entity_1 = require("./entities/category.entity");
 const fuse_js_1 = __importDefault(require("fuse.js"));
-const categories_json_1 = __importDefault(require("../db/pickbazar/categories.json"));
+const categories_json_1 = __importDefault(require("./categories.json"));
+const category_entity_1 = require("./entities/category.entity");
 const paginate_1 = require("../common/pagination/paginate");
 const categories = (0, class_transformer_1.plainToClass)(category_entity_1.Category, categories_json_1.default);
 const options = {
@@ -26,34 +26,36 @@ let CategoriesService = class CategoriesService {
     constructor() {
         this.categories = categories;
     }
-    create(createCategoryDto) {
+    create(createCategoryInput) {
         return this.categories[0];
     }
-    getCategories({ limit, page, search, parent }) {
-        var _a;
-        if (!page)
-            page = 1;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
+    getCategories({ text, first, page, hasType, parent }) {
+        var _a, _b;
+        const startIndex = (page - 1) * first;
+        const endIndex = page * first;
         let data = this.categories;
-        if (search) {
-            const parseSearchParams = search.split(';');
-            for (const searchParam of parseSearchParams) {
-                const [key, value] = searchParam.split(':');
-                data = (_a = fuse.search(value)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
-            }
+        if (text === null || text === void 0 ? void 0 : text.replace(/%/g, '')) {
+            data = (_a = fuse.search(text)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
         }
-        if (parent === 'null') {
-            data = data.filter((item) => item.parent === null);
+        if (hasType === null || hasType === void 0 ? void 0 : hasType.value) {
+            data = (_b = fuse.search(hasType.value)) === null || _b === void 0 ? void 0 : _b.map(({ item }) => item);
+        }
+        if (parent === null) {
+            data = data.filter(({ parent: parentValue }) => parentValue === null);
         }
         const results = data.slice(startIndex, endIndex);
-        const url = `/categories?search=${search}&limit=${limit}&parent=${parent}`;
-        return Object.assign({ data: results }, (0, paginate_1.paginate)(data.length, page, limit, results.length, url));
+        return {
+            data: results,
+            paginatorInfo: (0, paginate_1.paginate)(data.length, page, first, results.length),
+        };
     }
-    getCategory(id) {
-        return this.categories.find((p) => p.id === id);
+    getCategory({ id, slug }) {
+        if (id) {
+            return this.categories.find((p) => p.id === Number(id));
+        }
+        return this.categories.find((p) => p.slug === slug);
     }
-    update(id, updateCategoryDto) {
+    update(id, updateCategoryInput) {
         return this.categories[0];
     }
     remove(id) {

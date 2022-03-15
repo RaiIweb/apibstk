@@ -1,25 +1,18 @@
-import { CreateCouponDto } from './dto/create-coupon.dto';
-import { UpdateCouponDto } from './dto/update-coupon.dto';
+import { CreateCouponInput } from './dto/create-coupon.input';
+import { UpdateCouponInput } from './dto/update-coupon.input';
 import { Coupon } from './entities/coupon.entity';
-import { GetCouponsDto } from './dto/get-coupons.dto';
+import { GetCouponsArgs } from './dto/get-coupons.args';
+import { GetCouponArgs } from './dto/get-coupon.args';
+import { VerifyCouponResponse } from './dto/verify-coupon.input';
 export declare class CouponsService {
     private coupons;
-    create(createCouponDto: CreateCouponDto): Coupon;
-    getCoupons({ search, limit, page }: GetCouponsDto): {
-        count: number;
-        currentPage: number;
-        firstItem: number;
-        lastItem: number;
-        lastPage: number;
-        perPage: number;
-        total: number;
-        first_page_url: string;
-        last_page_url: string;
-        next_page_url: string;
-        prev_page_url: string;
+    create(createCouponInput: CreateCouponInput): Coupon;
+    getCoupons({ text, first, page }: GetCouponsArgs): {
         data: Coupon[];
+        paginatorInfo: import("../common/dto/paginator-info.model").PaginatorInfo;
     };
-    getCoupon(id: number): Coupon;
-    update(id: number, updateCouponDto: UpdateCouponDto): Coupon;
+    getCoupon({ id, code }: GetCouponArgs): Coupon;
+    update(id: number, updateCouponInput: UpdateCouponInput): Coupon;
     remove(id: number): string;
+    verifyCoupon(code: string): VerifyCouponResponse;
 }

@@ -19,16 +19,14 @@ let SettingsService = class SettingsService {
     constructor() {
         this.settings = settings;
     }
-    create(createSettingDto) {
-        return this.settings;
-    }
-    findAll() {
+    getSettings() {
         return this.settings;
     }
     findOne(id) {
         return `This action returns a #${id} setting`;
     }
-    update(id, updateSettingDto) {
+    updateSettings(updateSettingsInput) {
+        console.log(updateSettingsInput);
         return this.settings;
     }
     remove(id) {

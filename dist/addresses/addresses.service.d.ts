@@ -1,9 +1,9 @@
-import { CreateAddressDto } from './dto/create-address.dto';
-import { UpdateAddressDto } from './dto/update-address.dto';
+import { CreateAddressInput } from './dto/create-address.input';
+import { UpdateAddressInput } from './dto/update-address.input';
 export declare class AddressesService {
-    create(createAddressDto: CreateAddressDto): string;
+    create(createAddressInput: CreateAddressInput): string;
     findAll(): string;
     findOne(id: number): string;
-    update(id: number, updateAddressDto: UpdateAddressDto): string;
+    update(id: number, updateAddressInput: UpdateAddressInput): string;
     remove(id: number): string;
 }

@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddressesService = void 0;
 const common_1 = require("@nestjs/common");
 let AddressesService = class AddressesService {
-    create(createAddressDto) {
+    create(createAddressInput) {
         return 'This action adds a new address';
     }
     findAll() {
@@ -18,7 +18,7 @@ let AddressesService = class AddressesService {
     findOne(id) {
         return `This action returns a #${id} address`;
     }
-    update(id, updateAddressDto) {
+    update(id, updateAddressInput) {
         return `This action updates a #${id} address`;
     }
     remove(id) {

@@ -13,7 +13,7 @@ exports.TypesService = void 0;
 const common_1 = require("@nestjs/common");
 const class_transformer_1 = require("class-transformer");
 const type_entity_1 = require("./entities/type.entity");
-const types_json_1 = __importDefault(require("../db/pickbazar/types.json"));
+const types_json_1 = __importDefault(require("./types.json"));
 const fuse_js_1 = __importDefault(require("fuse.js"));
 const types = (0, class_transformer_1.plainToClass)(type_entity_1.Type, types_json_1.default);
 const options = {
@@ -25,6 +25,9 @@ let TypesService = class TypesService {
     constructor() {
         this.types = types;
     }
+    create(createTypeInput) {
+        return this.types[0];
+    }
     getTypes({ text }) {
         var _a;
         let data = this.types;
@@ -33,19 +36,16 @@ let TypesService = class TypesService {
         }
         return data;
     }
-    getTypeBySlug(slug) {
+    getType({ id, slug }) {
+        if (id) {
+            return this.types.find((p) => p.id === Number(id));
+        }
         return this.types.find((p) => p.slug === slug);
-    }
-    create(createTypeDto) {
-        return this.types[0];
-    }
-    findAll() {
-        return `This action returns all types`;
     }
     findOne(id) {
         return `This action returns a #${id} type`;
     }
-    update(id, updateTypeDto) {
+    update(id, updateTypeInput) {
         return this.types[0];
     }
     remove(id) {

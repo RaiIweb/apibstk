@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { RefundsService } from './refunds.service';
-import { RefundsController } from './refunds.controller';
+import { RefundsResolver } from './refunds.resolver';
 
 @Module({
-  controllers: [RefundsController],
-  providers: [RefundsService]
+  providers: [RefundsResolver, RefundsService]
 })
 export class RefundsModule {}

@@ -8,8 +8,8 @@ export declare class SettingsOptions {
     siteSubtitle: string;
     currency: string;
     minimumOrderAmount: number;
-    walletToCurrencyRatio: number;
-    signupPoints: number;
+    currencyToWalletRatio?: number;
+    signupPoints?: number;
     deliveryTime: DeliveryTime[];
     logo: Attachment;
     taxClass: string;
@@ -54,11 +54,11 @@ export declare class ShopSocials {
     url: string;
 }
 export declare class Location {
-    lat: number;
-    lng: number;
+    lat?: number;
+    lng?: number;
     city?: string;
-    state: string;
-    country: string;
+    state?: string;
+    country?: string;
     zip?: string;
-    formattedAddress: string;
+    formattedAddress?: string;
 }

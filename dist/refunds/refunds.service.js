@@ -8,17 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RefundsService = void 0;
 const common_1 = require("@nestjs/common");
+const paginate_1 = require("../common/pagination/paginate");
 let RefundsService = class RefundsService {
-    create(createRefundDto) {
-        return 'This action adds a new refund';
+    create(createRefundInput) {
+        return Object.assign({ id: 1 }, createRefundInput);
     }
-    findAll() {
-        return `This action returns all refunds`;
+    findAll({ first, page }) {
+        const data = [];
+        const results = [];
+        return {
+            data: data,
+            paginatorInfo: (0, paginate_1.paginate)(data.length, page, first, results.length),
+        };
     }
     findOne(id) {
         return `This action returns a #${id} refund`;
     }
-    update(id, updateRefundDto) {
+    update(id, updateRefundInput) {
         return `This action updates a #${id} refund`;
     }
     remove(id) {

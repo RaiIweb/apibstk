@@ -10,13 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CoreEntity = void 0;
-const openapi = require("@nestjs/swagger");
+const graphql_1 = require("@nestjs/graphql");
 const class_transformer_1 = require("class-transformer");
-class CoreEntity {
-    static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, created_at: { required: true, type: () => Date }, updated_at: { required: true, type: () => Date } };
+let CoreEntity = class CoreEntity {
+    static _GRAPHQL_METADATA_FACTORY() {
+        return { id: { type: () => Number }, created_at: { type: () => Date }, updated_at: { type: () => Date } };
     }
-}
+};
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.ID),
+    __metadata("design:type", Number)
+], CoreEntity.prototype, "id", void 0);
 __decorate([
     (0, class_transformer_1.Type)(() => Date),
     __metadata("design:type", Date)
@@ -25,5 +29,8 @@ __decorate([
     (0, class_transformer_1.Type)(() => Date),
     __metadata("design:type", Date)
 ], CoreEntity.prototype, "updated_at", void 0);
+CoreEntity = __decorate([
+    (0, graphql_1.ObjectType)()
+], CoreEntity);
 exports.CoreEntity = CoreEntity;
 //# sourceMappingURL=core.entity.js.map

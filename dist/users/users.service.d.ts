@@ -1,12 +1,19 @@
-import { CreateUserDto } from './dto/create-user.dto';
-import { GetUsersDto, UserPaginator } from './dto/get-users.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthResponse, ChangePasswordInput, ForgetPasswordInput, LoginInput, PasswordChangeResponse, RegisterInput, ResetPasswordInput, VerifyForgetPasswordTokenInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
+import { GetUserArgs } from './dto/get-user.args';
+import { GetUsersArgs, UserPaginator } from './dto/get-users.args';
 export declare class UsersService {
     private users;
-    create(createUserDto: CreateUserDto): User;
-    getUsers({ text, limit, page }: GetUsersDto): Promise<UserPaginator>;
-    findOne(id: number): User;
-    update(id: number, updateUserDto: UpdateUserDto): User;
+    register(createUserInput: RegisterInput): Promise<AuthResponse>;
+    login(loginInput: LoginInput): Promise<AuthResponse>;
+    changePassword(changePasswordInput: ChangePasswordInput): Promise<PasswordChangeResponse>;
+    forgetPassword(forgetPasswordInput: ForgetPasswordInput): Promise<PasswordChangeResponse>;
+    verifyForgetPasswordToken(verifyForgetPasswordTokenInput: VerifyForgetPasswordTokenInput): Promise<PasswordChangeResponse>;
+    resetPassword(resetPasswordInput: ResetPasswordInput): Promise<PasswordChangeResponse>;
+    getUsers({ text, first, page }: GetUsersArgs): Promise<UserPaginator>;
+    getUser(getUserArgs: GetUserArgs): User;
+    me(): User;
+    updateUser(id: number, updateUserInput: UpdateUserInput): User;
     remove(id: number): string;
 }

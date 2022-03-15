@@ -1,11 +1,20 @@
+import {
+  ObjectType,
+  Field,
+  Int,
+  registerEnumType,
+  InputType,
+} from '@nestjs/graphql';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
-
+@InputType('WithdrawInputType', { isAbstract: true })
+@ObjectType()
 export class Withdraw extends CoreEntity {
   amount: number;
-  status: WithdrawStatus;
+  status?: WithdrawStatus;
+  @Field(() => Int)
   shop_id: number;
-  shop: Shop;
+  shop?: Shop;
   payment_method: string;
   details: string;
   note: string;
@@ -18,3 +27,7 @@ export enum WithdrawStatus {
   REJECTED = 'Rejected',
   PROCESSING = 'Processing',
 }
+
+registerEnumType(WithdrawStatus, {
+  name: 'WithdrawStatus',
+});

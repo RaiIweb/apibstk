@@ -14,13 +14,13 @@ export declare class Shop extends CoreEntity {
     name: string;
     slug: string;
     description?: string;
-    cover_image: Attachment;
+    cover_image?: Attachment;
     logo?: Attachment;
     address: UserAddress;
     settings?: ShopSettings;
 }
 export declare class Balance {
-    id: number;
+    id?: number;
     admin_commission_rate: number;
     shop: Shop;
     total_earnings: number;
@@ -28,15 +28,19 @@ export declare class Balance {
     current_balance: number;
     payment_info: PaymentInfo;
 }
+declare const BalanceInput_base: import("@nestjs/common").Type<Pick<Balance, "id" | "payment_info">>;
+export declare class BalanceInput extends BalanceInput_base {
+}
 export declare class PaymentInfo {
-    account: string;
-    name: string;
-    email: string;
-    bank: string;
+    account?: string;
+    name?: string;
+    email?: string;
+    bank?: string;
 }
 export declare class ShopSettings {
-    socials: ShopSocials[];
-    contact: string;
-    location: Location;
-    website: string;
+    socials?: ShopSocials[];
+    contact?: string;
+    location?: Location;
+    website?: string;
 }
+export {};

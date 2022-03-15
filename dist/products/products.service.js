@@ -13,12 +13,12 @@ exports.ProductsService = void 0;
 const common_1 = require("@nestjs/common");
 const class_transformer_1 = require("class-transformer");
 const product_entity_1 = require("./entities/product.entity");
-const paginate_1 = require("../common/pagination/paginate");
-const products_json_1 = __importDefault(require("../db/pickbazar/products.json"));
+const products_json_1 = __importDefault(require("./products.json"));
 const fuse_js_1 = __importDefault(require("fuse.js"));
+const paginate_1 = require("../common/pagination/paginate");
 const products = (0, class_transformer_1.plainToClass)(product_entity_1.Product, products_json_1.default);
 const options = {
-    keys: ['name', 'type.slug', 'categories.slug', 'status', 'shop_id'],
+    keys: ['name', 'type.slug', 'categories.slug', 'status'],
     threshold: 0.3,
 };
 const fuse = new fuse_js_1.default(products, options);
@@ -26,43 +26,52 @@ let ProductsService = class ProductsService {
     constructor() {
         this.products = products;
     }
-    create(createProductDto) {
-        return this.products[0];
+    create(createProductInput) {
+        return 'This action adds a new product';
     }
-    getProducts({ limit, page, search }) {
-        var _a;
-        if (!page)
-            page = 1;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
+    getProducts({ text, first, page, hasType, hasCategories, status, shop_id, }) {
+        var _a, _b, _c;
+        const startIndex = (page - 1) * first;
+        const endIndex = page * first;
         let data = this.products;
-        if (search) {
-            const parseSearchParams = search.split(';');
-            for (const searchParam of parseSearchParams) {
-                const [key, value] = searchParam.split(':');
-                data = (_a = fuse.search(value)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
-            }
+        if (text === null || text === void 0 ? void 0 : text.replace(/%/g, '')) {
+            data = (_a = fuse.search(text)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
+        }
+        if (hasType === null || hasType === void 0 ? void 0 : hasType.value) {
+            data = (_b = fuse.search(hasType.value)) === null || _b === void 0 ? void 0 : _b.map(({ item }) => item);
+        }
+        if (hasCategories === null || hasCategories === void 0 ? void 0 : hasCategories.value) {
+            data = (_c = fuse
+                .search(hasCategories.value)) === null || _c === void 0 ? void 0 : _c.map(({ item }) => item);
+        }
+        if (shop_id) {
+            data = this.products.filter((p) => p.shop_id === Number(shop_id));
         }
         const results = data.slice(startIndex, endIndex);
-        const url = `/products?search=${search}&limit=${limit}`;
-        return Object.assign({ data: results }, (0, paginate_1.paginate)(data.length, page, limit, results.length, url));
+        return {
+            data: results,
+            paginatorInfo: (0, paginate_1.paginate)(data.length, page, first, results.length),
+        };
     }
-    getProductBySlug(slug) {
-        const product = this.products.find((p) => p.slug === slug);
-        const related_products = this.products
-            .filter((p) => p.type.slug === product.type.slug)
-            .slice(0, 20);
-        return Object.assign(Object.assign({}, product), { related_products });
+    getProduct({ id, slug }) {
+        if (id) {
+            return this.products.find((p) => p.id === Number(id));
+        }
+        return this.products.find((p) => p.slug === slug);
+    }
+    getRelatedProducts({ id, slug }) {
+        var _a;
+        return (_a = this.products) === null || _a === void 0 ? void 0 : _a.filter((p) => p.type.slug === slug).slice(0, 10);
     }
     getPopularProducts({ shop_id, limit }) {
         var _a;
         return (_a = this.products) === null || _a === void 0 ? void 0 : _a.slice(0, limit);
     }
-    update(id, updateProductDto) {
+    update(id, updateProductInput) {
         return this.products[0];
     }
     remove(id) {
-        return `This action removes a #${id} product`;
+        return this.products.find((p) => p.id === id);
     }
 };
 ProductsService = __decorate([

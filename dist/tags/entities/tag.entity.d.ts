@@ -5,10 +5,10 @@ import { Type } from 'src/types/entities/type.entity';
 export declare class Tag extends CoreEntity {
     name: string;
     slug: string;
-    parent: number;
-    details: string;
-    image: Attachment;
-    icon: string;
-    type: Type;
-    products: Product[];
+    parent?: number;
+    details?: string;
+    image?: Attachment;
+    icon?: string;
+    type?: Type;
+    products?: Product[];
 }

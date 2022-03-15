@@ -1,0 +1,1 @@
+{"version":3,"file":"create-tax.input.js","sourceRoot":"","sources":["../../../src/taxes/dto/create-tax.input.ts"],"names":[],"mappings":";;;;;;;;;AAAA,6CAAsD;AACtD,uDAA6C;AAG7C,IAAa,cAAc,GAA3B,MAAa,cAAe,SAAQ,IAAA,kBAAQ,EAAC,gBAAG,EAAE;IAChD,IAAI;IACJ,YAAY;IACZ,YAAY;CACb,CAAC;;;;CAAG,CAAA;AAJQ,cAAc;IAD1B,IAAA,mBAAS,GAAE;GACC,cAAc,CAItB;AAJQ,wCAAc"}

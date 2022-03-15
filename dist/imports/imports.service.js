@@ -9,17 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImportsService = void 0;
 const common_1 = require("@nestjs/common");
 let ImportsService = class ImportsService {
-    create(createImportDto) {
+    create(createImportInput) {
         return 'This action adds a new import';
-    }
-    findAll() {
-        return `This action returns all imports`;
-    }
-    findOne(id) {
-        return `This action returns a #${id} import`;
-    }
-    remove(id) {
-        return `This action removes a #${id} import`;
     }
 };
 ImportsService = __decorate([

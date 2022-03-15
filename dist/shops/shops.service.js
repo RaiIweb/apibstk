@@ -13,12 +13,12 @@ exports.ShopsService = void 0;
 const common_1 = require("@nestjs/common");
 const class_transformer_1 = require("class-transformer");
 const shop_entity_1 = require("./entities/shop.entity");
-const shops_json_1 = __importDefault(require("./shops.json"));
 const fuse_js_1 = __importDefault(require("fuse.js"));
+const shops_json_1 = __importDefault(require("./shops.json"));
 const paginate_1 = require("../common/pagination/paginate");
 const shops = (0, class_transformer_1.plainToClass)(shop_entity_1.Shop, shops_json_1.default);
 const options = {
-    keys: ['name', 'type.slug', 'is_active'],
+    keys: ['name', 'type.slug'],
     threshold: 0.3,
 };
 const fuse = new fuse_js_1.default(shops, options);
@@ -26,47 +26,45 @@ let ShopsService = class ShopsService {
     constructor() {
         this.shops = shops;
     }
-    create(createShopDto) {
+    create(createShopInput) {
         return this.shops[0];
     }
-    getShops({ search, limit, page }) {
+    getShops({ text, first, page }) {
         var _a;
-        if (!page)
-            page = 1;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
+        const startIndex = (page - 1) * first;
+        const endIndex = page * first;
         let data = this.shops;
-        if (search) {
-            const parseSearchParams = search.split(';');
-            for (const searchParam of parseSearchParams) {
-                const [key, value] = searchParam.split(':');
-                data = (_a = fuse.search(value)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
-            }
+        if (text === null || text === void 0 ? void 0 : text.replace(/%/g, '')) {
+            data = (_a = fuse.search(text)) === null || _a === void 0 ? void 0 : _a.map(({ item }) => item);
         }
         const results = data.slice(startIndex, endIndex);
-        const url = `/shops?search=${search}&limit=${limit}`;
-        return Object.assign({ data: results }, (0, paginate_1.paginate)(data.length, page, limit, results.length, url));
+        return {
+            data: results,
+            paginatorInfo: (0, paginate_1.paginate)(data.length, page, first, results.length),
+        };
     }
-    getStaffs({ shop_id, limit, page }) {
+    getStaffs({ shop_id, first, page }) {
         var _a, _b;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
+        const startIndex = (page - 1) * first;
+        const endIndex = page * first;
         let staffs = [];
         if (shop_id) {
             staffs = (_b = (_a = this.shops.find((p) => p.id === Number(shop_id))) === null || _a === void 0 ? void 0 : _a.staffs) !== null && _b !== void 0 ? _b : [];
         }
         const results = staffs === null || staffs === void 0 ? void 0 : staffs.slice(startIndex, endIndex);
-        const url = `/staffs?limit=${limit}`;
-        return Object.assign({ data: results }, (0, paginate_1.paginate)(staffs === null || staffs === void 0 ? void 0 : staffs.length, page, limit, results === null || results === void 0 ? void 0 : results.length, url));
+        return {
+            data: results,
+            paginatorInfo: (0, paginate_1.paginate)(staffs === null || staffs === void 0 ? void 0 : staffs.length, page, first, results === null || results === void 0 ? void 0 : results.length),
+        };
     }
-    getShop(slug) {
+    getShop({ id, slug }) {
+        if (id) {
+            return this.shops.find((p) => p.id === id);
+        }
         return this.shops.find((p) => p.slug === slug);
     }
-    update(id, updateShopDto) {
+    update(id, updateShopInput) {
         return this.shops[0];
-    }
-    approve(id) {
-        return `This action removes a #${id} shop`;
     }
     remove(id) {
         return `This action removes a #${id} shop`;

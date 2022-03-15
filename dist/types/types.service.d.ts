@@ -1,14 +1,14 @@
-import { CreateTypeDto } from './dto/create-type.dto';
-import { UpdateTypeDto } from './dto/update-type.dto';
+import { CreateTypeInput } from './dto/create-type.input';
+import { UpdateTypeInput } from './dto/update-type.input';
 import { Type } from './entities/type.entity';
-import { GetTypesDto } from './dto/get-types.dto';
+import { GetTypesArgs } from './dto/get-types.args';
+import { GetTypeArgs } from './dto/get-type.args';
 export declare class TypesService {
     private types;
-    getTypes({ text }: GetTypesDto): Type[];
-    getTypeBySlug(slug: string): Type;
-    create(createTypeDto: CreateTypeDto): Type;
-    findAll(): string;
+    create(createTypeInput: CreateTypeInput): Type;
+    getTypes({ text }: GetTypesArgs): Type[];
+    getType({ id, slug }: GetTypeArgs): Type;
     findOne(id: number): string;
-    update(id: number, updateTypeDto: UpdateTypeDto): Type;
+    update(id: number, updateTypeInput: UpdateTypeInput): Type;
     remove(id: number): string;
 }

@@ -9,13 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AnalyticsModule = void 0;
 const common_1 = require("@nestjs/common");
 const analytics_service_1 = require("./analytics.service");
-const analytics_controller_1 = require("./analytics.controller");
+const analytics_resolver_1 = require("./analytics.resolver");
 let AnalyticsModule = class AnalyticsModule {
 };
 AnalyticsModule = __decorate([
     (0, common_1.Module)({
-        controllers: [analytics_controller_1.AnalyticsController],
-        providers: [analytics_service_1.AnalyticsService],
+        providers: [analytics_resolver_1.AnalyticsResolver, analytics_service_1.AnalyticsService]
     })
 ], AnalyticsModule);
 exports.AnalyticsModule = AnalyticsModule;

@@ -8,5 +8,5 @@ export declare class Tax extends CoreEntity {
     zip?: string;
     city?: string;
     priority?: number;
-    on_shipping: boolean;
+    on_shipping?: boolean;
 }

@@ -12,7 +12,7 @@ export declare class Coupon extends CoreEntity {
     description?: string;
     orders?: Order[];
     type: CouponType;
-    image: Attachment;
+    image?: Attachment;
     is_valid: boolean;
     amount: number;
     active_from: string;

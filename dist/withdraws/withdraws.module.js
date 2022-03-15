@@ -9,13 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WithdrawsModule = void 0;
 const common_1 = require("@nestjs/common");
 const withdraws_service_1 = require("./withdraws.service");
-const withdraws_controller_1 = require("./withdraws.controller");
+const withdraws_resolver_1 = require("./withdraws.resolver");
 let WithdrawsModule = class WithdrawsModule {
 };
 WithdrawsModule = __decorate([
     (0, common_1.Module)({
-        controllers: [withdraws_controller_1.WithdrawsController],
-        providers: [withdraws_service_1.WithdrawsService],
+        providers: [withdraws_resolver_1.WithdrawsResolver, withdraws_service_1.WithdrawsService]
     })
 ], WithdrawsModule);
 exports.WithdrawsModule = WithdrawsModule;

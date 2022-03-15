@@ -1,0 +1,34 @@
+import { UsersService } from './users.service';
+import { User } from './entities/user.entity';
+import { AuthResponse, ChangePasswordInput, ForgetPasswordInput, LoginInput, OtpInput, OtpLoginInput, OtpResponse, PasswordChangeResponse, RegisterInput, ResetPasswordInput, SocialLoginInput, VerifyForgetPasswordTokenInput, VerifyOtpInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import { GetUserArgs } from './dto/get-user.args';
+import { GetUsersArgs, UserPaginator } from './dto/get-users.args';
+import { SuccessResponse } from 'src/common/dto/success-response.model';
+import { ProfileInput } from './dto/create-profile.input';
+import { UpdateProfileArgs } from './dto/update-profile.args';
+export declare class UsersResolver {
+    private readonly usersService;
+    constructor(usersService: UsersService);
+    register(createUserInput: RegisterInput): Promise<AuthResponse>;
+    login(loginInput: LoginInput): Promise<AuthResponse>;
+    socialLogin(socialLoginInput: SocialLoginInput): Promise<AuthResponse>;
+    otpLogin(otpLoginInput: OtpLoginInput): Promise<AuthResponse>;
+    verifyOtpCode(verifyOtpInput: VerifyOtpInput): Promise<SuccessResponse>;
+    sendOtpCode(otpInput: OtpInput): Promise<OtpResponse>;
+    logout(): Promise<boolean>;
+    changePassword(changePasswordInput: ChangePasswordInput): Promise<PasswordChangeResponse>;
+    forgetPassword(forgetPasswordInput: ForgetPasswordInput): Promise<PasswordChangeResponse>;
+    verifyForgetPasswordToken(verifyForgetPasswordTokenInput: VerifyForgetPasswordTokenInput): Promise<PasswordChangeResponse>;
+    resetPassword(resetPasswordInput: ResetPasswordInput): Promise<PasswordChangeResponse>;
+    getUsers(getUsersArgs: GetUsersArgs): Promise<UserPaginator>;
+    me(): Promise<User>;
+    getUser(getUserArgs: GetUserArgs): User;
+    updateUser(updateUserInput: UpdateUserInput): User;
+    activeUser(id: number): void;
+    banUser(id: number): void;
+    removeUser(id: number): string;
+    createProfile(profileInput: ProfileInput): void;
+    updateProfile(updateProfileArgs: UpdateProfileArgs): void;
+    deleteProfile(id: number): string;
+}

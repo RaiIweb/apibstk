@@ -1,7 +1,4 @@
-import { ImportDto } from './dto/create-import.dto';
+import { ImportInput } from './dto/create-import.input';
 export declare class ImportsService {
-    create(createImportDto: ImportDto): string;
-    findAll(): string;
-    findOne(id: number): string;
-    remove(id: number): string;
+    create(createImportInput: ImportInput): string;
 }

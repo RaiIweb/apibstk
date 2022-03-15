@@ -1,80 +1,83 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { CreateProductDto } from './dto/create-product.dto';
-import { GetProductsDto, ProductPaginator } from './dto/get-products.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductInput } from './dto/create-product.input';
+import { GetProductArgs } from './dto/get-product.args';
+import { GetProductsArgs, ProductPaginator } from './dto/get-products.args';
+import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
-import { paginate } from 'src/common/pagination/paginate';
-import productsJson from '@db/products.json';
+import productsJson from './products.json';
 import Fuse from 'fuse.js';
-import { GetPopularProductsDto } from './dto/get-popular-products.dto';
+import { paginate } from 'src/common/pagination/paginate';
+import { GetPopularProductsArgs } from './dto/get-popular-products.args';
 const products = plainToClass(Product, productsJson);
 const options = {
-  keys: ['name', 'type.slug', 'categories.slug', 'status', 'shop_id'],
+  keys: ['name', 'type.slug', 'categories.slug', 'status'],
   threshold: 0.3,
 };
 const fuse = new Fuse(products, options);
+
 @Injectable()
 export class ProductsService {
   private products: Product[] = products;
-  create(createProductDto: CreateProductDto) {
-    return this.products[0];
+  create(createProductInput: CreateProductInput) {
+    return 'This action adds a new product';
   }
 
-  getProducts({ limit, page, search }: GetProductsDto): ProductPaginator {
-    if (!page) page = 1;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
+  getProducts({
+    text,
+    first,
+    page,
+    hasType,
+    hasCategories,
+    status,
+    shop_id,
+  }: GetProductsArgs): ProductPaginator {
+    const startIndex = (page - 1) * first;
+    const endIndex = page * first;
     let data: Product[] = this.products;
-    if (search) {
-      const parseSearchParams = search.split(';');
-      for (const searchParam of parseSearchParams) {
-        const [key, value] = searchParam.split(':');
-        data = fuse.search(value)?.map(({ item }) => item);
-      }
-    }
     // if (status) {
     //   data = fuse.search(status)?.map(({ item }) => item);
     // }
-    // if (text?.replace(/%/g, '')) {
-    //   data = fuse.search(text)?.map(({ item }) => item);
-    // }
-    // if (hasType) {
-    //   data = fuse.search(hasType)?.map(({ item }) => item);
-    // }
-    // if (hasCategories) {
-    //   data = fuse.search(hasCategories)?.map(({ item }) => item);
-    // }
+    if (text?.replace(/%/g, '')) {
+      data = fuse.search(text)?.map(({ item }) => item);
+    }
+    if (hasType?.value) {
+      data = fuse.search(hasType.value as unknown)?.map(({ item }) => item);
+    }
+    if (hasCategories?.value) {
+      data = fuse
+        .search(hasCategories.value as unknown)
+        ?.map(({ item }) => item);
+    }
 
-    // if (shop_id) {
-    //   data = this.products.filter((p) => p.shop_id === Number(shop_id));
-    // }
+    if (shop_id) {
+      data = this.products.filter((p) => p.shop_id === Number(shop_id));
+    }
     const results = data.slice(startIndex, endIndex);
-    const url = `/products?search=${search}&limit=${limit}`;
     return {
       data: results,
-      ...paginate(data.length, page, limit, results.length, url),
+      paginatorInfo: paginate(data.length, page, first, results.length),
     };
   }
 
-  getProductBySlug(slug: string): Product {
-    const product = this.products.find((p) => p.slug === slug);
-    const related_products = this.products
-      .filter((p) => p.type.slug === product.type.slug)
-      .slice(0, 20);
-    return {
-      ...product,
-      related_products,
-    };
+  getProduct({ id, slug }: GetProductArgs): Product {
+    if (id) {
+      return this.products.find((p) => p.id === Number(id));
+    }
+    return this.products.find((p) => p.slug === slug);
   }
-  getPopularProducts({ shop_id, limit }: GetPopularProductsDto): Product[] {
+  getRelatedProducts({ id, slug }: GetProductArgs): Product[] {
+    return this.products?.filter((p) => p.type.slug === slug).slice(0, 10);
+  }
+  getPopularProducts({ shop_id, limit }: GetPopularProductsArgs): Product[] {
     return this.products?.slice(0, limit);
   }
-  update(id: number, updateProductDto: UpdateProductDto) {
+
+  update(id: number, updateProductInput: UpdateProductInput) {
     return this.products[0];
   }
 
   remove(id: number) {
-    return `This action removes a #${id} product`;
+    return this.products.find((p) => p.id === id);
   }
 }

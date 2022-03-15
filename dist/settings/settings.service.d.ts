@@ -1,11 +1,9 @@
-import { CreateSettingDto } from './dto/create-setting.dto';
-import { UpdateSettingDto } from './dto/update-setting.dto';
+import { SettingsInput } from './dto/update-setting.input';
 import { Setting } from './entities/setting.entity';
 export declare class SettingsService {
     private settings;
-    create(createSettingDto: CreateSettingDto): Setting;
-    findAll(): Setting;
+    getSettings(): Setting;
     findOne(id: number): string;
-    update(id: number, updateSettingDto: UpdateSettingDto): Setting;
+    updateSettings(updateSettingsInput: SettingsInput): Setting;
     remove(id: number): string;
 }
